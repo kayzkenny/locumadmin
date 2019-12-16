@@ -1,6 +1,10 @@
 .DS_Store
 node_modules
 /dist
+# ignore firebase config
+src/db.js
+# ignore firebase hosting cache
+*.cache
 
 # local env files
 .env.local
