@@ -3,4 +3,16 @@ import Vuetify from "vuetify/lib";
 
 Vue.use(Vuetify);
 
-export default new Vuetify({});
+export default new Vuetify({
+  icons: {
+    iconfont: "mdi"
+  },
+  theme: {
+    themes: {
+      light: {
+        primary: "#512E5F",
+        secondary: "#39cdfa"
+      }
+    }
+  }
+});
