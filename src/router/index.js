@@ -6,6 +6,7 @@ import SignUp from "../views/SignUp.vue";
 import Login from "../views/Login.vue";
 import Profile from "../views/Profile.vue";
 import PostJob from "../views/PostJob.vue";
+import Applications from "../views/Applications.vue";
 
 Vue.use(VueRouter);
 
@@ -34,6 +35,11 @@ const routes = [
     path: "/postjob",
     name: "postjob",
     component: PostJob
+  },
+  {
+    path: "/applications/:vac_id",
+    name: "applications",
+    component: Applications
   }
 ];
 

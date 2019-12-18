@@ -4,6 +4,10 @@ import { db, fb } from "../db.js";
 
 Vue.use(Vuex);
 
+function formatDate(date) {
+  return date.toDate().toDateString();
+}
+
 export default new Vuex.Store({
   state: {
     user: {},
@@ -35,7 +39,7 @@ export default new Vuex.Store({
           alert(error);
         });
       state.bio = bio;
-      console.log(state.bio);
+      // console.log(state.bio);
     },
     updateBio(state, params) {
       // console.log(params.zip_code);
@@ -65,6 +69,8 @@ export default new Vuex.Store({
         .then(function(querySnapshot) {
           querySnapshot.forEach(function(doc) {
             let vac = doc.data();
+            vac.id = doc.id;
+            vac.date_posted = formatDate(vac.date_posted);
             vacancies.push(vac);
           });
         });
@@ -81,9 +87,6 @@ export default new Vuex.Store({
         .then(function(querySnapshot) {
           querySnapshot.forEach(function(doc) {
             state.vacancy = doc.data();
-            function formatDate(date) {
-              return date.toDate().toDateString();
-            }
             state.vacancy.date_posted = formatDate(state.vacancy.date_posted);
             state.vacancy.deadline = formatDate(state.vacancy.deadline);
             state.vacancy.start_date = formatDate(state.vacancy.start_date);
@@ -94,20 +97,28 @@ export default new Vuex.Store({
           console.log("Error getting documents: ", error);
         });
     },
-    loadApplications(state) {
+    loadApplications(state, payload) {
       let appls = [];
       let applRef = db
-        .collection("provider")
+        .collection("clinic")
         .doc(state.user.email)
-        .collection("applications");
-      applRef.get().then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-          let appl = doc.data();
-          appls.push(appl);
+        .collection("vacancies")
+        .doc(payload.vac_id)
+        .collection("applicants");
+      applRef
+        .get()
+        .then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+            let appl = doc.data();
+            // appl.application_date = formatDate(appl.application_date);
+            appls.push(appl);
+          });
+        })
+        .catch(error => {
+          alert("Error writing document: ", error);
         });
-      });
       state.applications = appls;
-      console.log(state.applications);
+      // console.log(state.applications);
     }
   },
   actions: {
@@ -117,14 +128,8 @@ export default new Vuex.Store({
     resetUserAction(context) {
       context.commit("resetUser");
     },
-    loadXpAction(context) {
-      context.commit("loadXp");
-    },
     loadBioAction(context) {
       context.commit("loadBio");
-    },
-    deleteXpAction(context, id) {
-      context.commit("deleteXp", id);
     },
     updateBioAction(context, params) {
       context.commit("updateBio", params);
@@ -138,8 +143,8 @@ export default new Vuex.Store({
     applyAction(context, payload) {
       context.commit("apply", payload);
     },
-    loadApplicationsAction(context) {
-      context.commit("loadApplications");
+    loadApplicationsAction(context, payload) {
+      context.commit("loadApplications", payload);
     }
   },
   modules: {}

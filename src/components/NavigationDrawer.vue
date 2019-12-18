@@ -5,6 +5,7 @@
     app
     clipped
     v-model="navDrawer"
+    v-if="user"
   >
     <template v-slot:prepend>
       <v-list>
@@ -16,9 +17,9 @@
 
         <v-list-item link two-line>
           <v-list-item-content>
-            <v-list-item-title class="title">{{
-              bio.clinic_name
-            }}</v-list-item-title>
+            <v-list-item-title class="title">
+              {{ bio.clinic_name }}
+            </v-list-item-title>
             <v-list-item-subtitle>{{ bio.email }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -59,17 +60,18 @@ export default {
     navDrawer: "recent"
   }),
   created() {
+    if (this.user.email) {
+      db.collection("clinic")
+        .doc(this.user.email)
+        .get()
+        .then(snapshot => {
+          this.avatar = snapshot.data().avatar;
+        })
+        .catch(error => {
+          alert(error);
+        });
+    }
     // populate the data properties with firestore user data
-    db.collection("clinic")
-      .doc(this.user.email)
-      .get()
-      .then(snapshot => {
-        this.avatar = snapshot.data().avatar;
-      })
-      .catch(error => {
-        alert(error);
-      });
-    this.$store.dispatch("loadBioAction"); // get bio state
   },
   computed: {
     user() {

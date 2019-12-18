@@ -1,9 +1,23 @@
 <template>
   <v-container>
-    <v-row dense justify="center" class="mt-6">
+    <v-row justify="center" v-if="!vacancies">
+      <v-col cols="11">
+        <p class="display-1 text-center">You haven't posted any vacancies</p>
+      </v-col>
+      <v-col cols="11">
+        <v-img
+          :src="require('../assets/no_data.svg')"
+          max-height="400"
+          max-width="400"
+          contain
+          class="mx-auto"
+        ></v-img>
+      </v-col>
+    </v-row>
+    <v-row dense justify="center" class="mt-6" v-if="vacancies">
       <v-col cols="11" sm="6" md="7" lg="8">
         <v-card flat color="transparent" class="display-1 mx-auto"
-          >Vacancies</v-card
+          >Posted Jobs</v-card
         >
       </v-col>
       <v-col cols="11" sm="5" md="4" lg="3">
@@ -17,7 +31,7 @@
         </v-form>
       </v-col>
     </v-row>
-    <v-row dense justify="center">
+    <v-row dense justify="center" v-if="vacancies">
       <v-col cols="11">
         <v-card
           color="white"
@@ -28,21 +42,26 @@
         >
           <div class="d-flex flex-no-wrap justify-space-between">
             <div>
-              <v-card-title class="body-1">{{ vac.position }}</v-card-title>
-
+              <v-card-title class="body-1">
+                {{ vac.position }}
+                <v-spacer></v-spacer>
+                {{ vac.date_posted }}
+              </v-card-title>
               <v-card-subtitle
-                v-line-clamp:20="2"
+                v-line-clamp:20="4"
                 class="mt-1 body-2 text-left"
-                >{{ vac.job_desc }}</v-card-subtitle
               >
+                <div v-html="vac.job_desc"></div>
+              </v-card-subtitle>
             </div>
           </div>
           <v-card-actions>
             <v-btn
               text
               class="pl-2"
+              color="primary"
               :to="{
-                name: 'apply',
+                name: 'applications',
                 params: { vac_id: vac.id }
               }"
               >View Applications</v-btn
@@ -61,6 +80,7 @@ export default {
   data: () => ({}),
   created() {
     this.$store.dispatch("loadVacanciesAction"); // get xp state
+    // console.log(this.vacancies);
   },
   computed: {
     user() {

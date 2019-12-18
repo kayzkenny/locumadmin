@@ -10,7 +10,7 @@
         ></v-img>
       </v-btn>
 
-      <v-toolbar-title>LocumHire</v-toolbar-title>
+      <v-toolbar-title>Locum Admin</v-toolbar-title>
 
       <div class="flex-grow-1"></div>
 
