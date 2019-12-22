@@ -25,21 +25,23 @@ export default new Vuex.Store({
       state.user = {};
     },
     loadBio(state) {
-      let bio = {};
-      db.collection("clinic")
-        .doc(state.user.email)
-        .get()
-        .then(snapshot => {
-          bio.clinic_name = snapshot.data().clinic_name;
-          bio.address = snapshot.data().address;
-          bio.phone_number = snapshot.data().phone_number;
-          bio.email = snapshot.data().email;
-        })
-        .catch(error => {
-          alert(error);
-        });
-      state.bio = bio;
-      // console.log(state.bio);
+      if (state.user) {
+        let bio = {};
+        db.collection("clinic")
+          .doc(state.user.email)
+          .get()
+          .then(snapshot => {
+            bio.clinic_name = snapshot.data().clinic_name;
+            bio.address = snapshot.data().address;
+            bio.phone_number = snapshot.data().phone_number;
+            bio.email = snapshot.data().email;
+          })
+          .catch(error => {
+            alert(error);
+          });
+        state.bio = bio;
+        // console.log(state.bio);
+      }
     },
     updateBio(state, params) {
       // console.log(params.zip_code);

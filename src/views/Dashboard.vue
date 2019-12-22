@@ -79,7 +79,9 @@ export default {
   name: "Dashboard",
   data: () => ({}),
   created() {
-    this.$store.dispatch("loadVacanciesAction"); // get xp state
+    if (this.user) {
+      this.$store.dispatch("loadVacanciesAction"); // get xp state
+    }
     // console.log(this.vacancies);
   },
   computed: {

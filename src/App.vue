@@ -24,11 +24,15 @@ export default {
     NavigationDrawer
   },
   created() {
-    this.$store.dispatch("loadUserAction"); // get user state
-    this.$store.dispatch("loadBioAction"); // get bio state
+    if (this.user) {
+      this.$store.dispatch("loadUserAction"); // get user state
+      this.$store.dispatch("loadBioAction"); // get bio state
+    }
   },
-  updated() {
-    this.$store.dispatch("loadUserAction");
+  computed: {
+    user() {
+      return this.$store.state.user; // get the current user state
+    }
   }
 };
 </script>

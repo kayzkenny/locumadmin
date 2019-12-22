@@ -76,7 +76,7 @@ export default {
     login() {
       this.loading = true;
       if (this.email && this.password) {
-        let ref = db.collection("provider").doc(this.email);
+        let ref = db.collection("clinic").doc(this.email);
         // get reference to the users document, the users email is the id of the doc
         ref.get().then(doc => {
           if (!doc.exists) {

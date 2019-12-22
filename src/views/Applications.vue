@@ -40,11 +40,11 @@
               </div>
             </v-col>
           </v-row>
-          <v-card-actions>
+          <!-- <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn text class="pl-2" color="primary">Reject</v-btn>
             <v-btn text class="pl-2" color="primary">Accept</v-btn>
-          </v-card-actions>
+          </v-card-actions>-->
         </v-card>
       </v-col>
     </v-row>

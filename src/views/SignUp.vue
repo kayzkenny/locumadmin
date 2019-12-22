@@ -162,7 +162,7 @@ export default {
           if (this.password && this.password == this.confirmPassword) {
             this.feedback = null;
             // this.loading = true;
-            let ref = db.collection("provider").doc(this.email);
+            let ref = db.collection("clinic").doc(this.email);
             // set the email as the doc id
             ref.get().then(doc => {
               if (doc.exists) {
